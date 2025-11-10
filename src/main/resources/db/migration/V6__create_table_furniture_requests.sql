@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS furniture_requests (
+    id BIGINT PRIMARY KEY GENERATED AlWAYS AS IDENTITY,
+    furniture_id BIGINT NOT NULL REFERENCES furnitures(id) ON DELETE CASCADE,
+    seller_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    status VARCHAR(50) NOT NULL DEFAULT 'en_attente',
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+);

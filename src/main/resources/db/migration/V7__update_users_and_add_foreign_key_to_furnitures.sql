@@ -1,0 +1,16 @@
+ALTER TABLE users
+DROP CONSTRAINT IF EXISTS users_role_fkey;
+
+
+ALTER TABLE users
+ALTER COLUMN role TYPE VARCHAR(50);
+
+
+ALTER TABLE users
+ALTER COLUMN role SET DEFAULT 'client';
+
+
+DROP TYPE IF EXISTS user_role CASCADE;
+
+
+ALTER TABLE furnitures ADD CONSTRAINT fk_furnitures_seller FOREIGN KEY (seller_id) REFERENCES users(id) ON DELETE CASCADE;
