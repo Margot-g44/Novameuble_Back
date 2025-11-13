@@ -67,6 +67,7 @@ public class JwtUtil {
     }
 
     private Date extractExpiration(String token) {
+        final Date expiration = extractClaim(token, Claims::getExpiration);
         return extractClaim(token, Claims::getExpiration);
     }
 }

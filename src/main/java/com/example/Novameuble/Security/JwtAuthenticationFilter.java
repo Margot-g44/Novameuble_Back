@@ -32,18 +32,32 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = null;
         String email = null;
 
+        System.out.println("=== JWT FILTER ===");
+        System.out.println("Request URI: " + request.getRequestURI());
+        System.out.println("Authorization header: " + authHeader);
+
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
-            email = jwtUtil.extractUsername(token);
+            try {
+                email = jwtUtil.extractUsername(token);
+                System.out.println("Extracted email from token: " + email);
+            } catch (Exception e) {
+                System.out.println("Failed to extract email from token: " + e.getMessage());
+            }
+        } else {
+            System.out.println("No Bearer token found in header");
         }
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
             if (jwtUtil.validateToken(token, userDetails)) {
+                System.out.println("Token valid, setting authentication for user: " + email);
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+            } else {
+                System.out.println("Token invalid for user: " + email);
             }
         }
 
