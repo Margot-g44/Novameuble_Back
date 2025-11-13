@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -26,8 +28,8 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Users user) {
         try {
-            Users loggedUser = authService.login(user.getEmail(), user.getPassword());
-            return ResponseEntity.ok(loggedUser);
+            String token = authService.login(user.getEmail(), user.getPassword());
+            return ResponseEntity.ok().body(Map.of("token", token));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

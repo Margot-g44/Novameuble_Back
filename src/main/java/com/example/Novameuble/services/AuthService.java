@@ -1,13 +1,18 @@
 package com.example.Novameuble.services;
 
+import com.example.Novameuble.Security.CustomUserDetails;
 import com.example.Novameuble.entities.Users;
 import com.example.Novameuble.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.example.Novameuble.Security.JwtUtil;
 
 @Service
 public class AuthService {
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @Autowired
     private UserRepository usersRepository;
@@ -29,7 +34,7 @@ public class AuthService {
 
     }
 
-    public Users login(String email, String password) {
+    public String login(String email, String password) {
         Users user = usersRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
 
@@ -37,8 +42,16 @@ public class AuthService {
             throw new RuntimeException("Mot de passe incorrect");
         }
 
-        user.setPassword(null);
+        // Création d’un objet UserDetails standard de Spring Security
+        org.springframework.security.core.userdetails.UserDetails userDetails =
+                org.springframework.security.core.userdetails.User
+                        .withUsername(user.getEmail())
+                        .password(user.getPassword())
+                        .roles(user.getRole().toUpperCase()) // Ex: ADMIN, SELLER, CLIENT
+                        .build();
 
-        return user;
+        // Génération du token JWT
+        return jwtUtil.generateToken(userDetails);
     }
+
 }
