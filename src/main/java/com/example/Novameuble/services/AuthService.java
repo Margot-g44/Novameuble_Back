@@ -1,6 +1,7 @@
 package com.example.Novameuble.services;
 
 import com.example.Novameuble.Security.CustomUserDetails;
+import com.example.Novameuble.entities.Role;
 import com.example.Novameuble.entities.Users;
 import com.example.Novameuble.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,10 @@ public class AuthService {
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.CLIENT);
         Users savedUser = usersRepository.save(user);
+
+
 
         savedUser.setPassword(null);
 
@@ -47,7 +51,7 @@ public class AuthService {
                 org.springframework.security.core.userdetails.User
                         .withUsername(user.getEmail())
                         .password(user.getPassword())
-                        .roles(user.getRole().toUpperCase()) // Ex: ADMIN, SELLER, CLIENT
+                        .roles(user.getRole().name()) // Ex: ADMIN, SELLER, CLIENT
                         .build();
 
         // Génération du token JWT
