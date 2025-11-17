@@ -1,5 +1,8 @@
 package com.example.Novameuble.controllers;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
+@PreAuthorize("isAuthenticated()")
 public class PasswordCheckRequest {
     private String email;
     private String password;

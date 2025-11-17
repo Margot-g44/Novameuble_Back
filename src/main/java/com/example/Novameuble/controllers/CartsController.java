@@ -3,6 +3,7 @@ package com.example.Novameuble.controllers;
 import com.example.Novameuble.entities.Carts;
 import com.example.Novameuble.services.CartsService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class CartsController {
         return cartService.getAllCarts();
     }
 
+    @PreAuthorize("hasRole('CLIENT')")
     @GetMapping("/{id}")
     public ResponseEntity<Carts> getCartById(@PathVariable Long id) {
         return cartService.getCartById(id)

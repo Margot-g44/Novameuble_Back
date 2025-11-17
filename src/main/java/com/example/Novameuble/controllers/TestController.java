@@ -3,6 +3,7 @@ package com.example.Novameuble.controllers;
 import com.example.Novameuble.entities.Users;
 import com.example.Novameuble.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,11 +16,13 @@ public class TestController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin/test")
     public String adminAccess() {
         return "Bienvenue ADMIN 👑";
     }
 
+    @PreAuthorize("hasRole('SELLER')")
     @GetMapping("/seller/test")
     public String sellerAccess() {
         return "Bienvenue SELLER 🛠️";
