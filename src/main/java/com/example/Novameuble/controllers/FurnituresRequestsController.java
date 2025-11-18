@@ -4,15 +4,16 @@ import com.example.Novameuble.entities.FurnitureRequests;
 import com.example.Novameuble.services.FurnitureRequestsService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
-@RequestMapping("/requests")
-public class FurnitureRequestsController {
+@RequestMapping("/api/requests")
+public class FurnituresRequestsController {
 
     private final FurnitureRequestsService service;
 
-    public FurnitureRequestsController(FurnitureRequestsService service) {
+    public FurnituresRequestsController(FurnitureRequestsService service) {
         this.service = service;
     }
 
@@ -40,9 +41,9 @@ public class FurnitureRequestsController {
         return service.updateRequest(id, request);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public void deleteRequest(@PathVariable Long id) {
         service.deleteRequest(id);
     }
 }
-

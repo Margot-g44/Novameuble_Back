@@ -103,4 +103,11 @@ public class Furnitures {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public void setSeller(Users user) {
+    }
+
+    public Users getSeller() {
+        return null;
+    }
 }

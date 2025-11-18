@@ -18,6 +18,7 @@ public class CartsController {
         this.cartService = cartService;
     }
 
+    @PreAuthorize("hasRole('CLIENT')")
     @GetMapping
     public List<Carts> getAllCarts() {
         return cartService.getAllCarts();
@@ -31,6 +32,7 @@ public class CartsController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasRole('CLIENT')")
     @PostMapping
     public Carts createCart(@RequestBody Carts cart) {
         return cartService.createCart(cart);
@@ -45,6 +47,7 @@ public class CartsController {
         }
     }
 
+    @PreAuthorize("hasRole('CLIENT')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCart(@PathVariable Long id) {
         cartService.deleteCart(id);

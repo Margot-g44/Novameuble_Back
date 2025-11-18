@@ -41,6 +41,7 @@ public class PicturesOfFurnituresController {
         return service.updatePicture(id, picture);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'SELLER')")
     @DeleteMapping("/{id}")
     public void deletePicture(@PathVariable Long id) {
         service.deletePicture(id);

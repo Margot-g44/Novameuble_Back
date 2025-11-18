@@ -1,9 +1,13 @@
 package com.example.Novameuble.controllers;
 
+import com.example.Novameuble.Security.CustomUserDetails;
+import com.example.Novameuble.entities.Users;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 
 @RestController
 @RequestMapping("/client")
@@ -11,9 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 public class ClientController {
 
+    @PreAuthorize("hasRole('CLIENT')")
     @GetMapping("/profile")
-    public String getClientProfile() {
-        return "Bienvenue sur ton profil client !";
+    public Users getClientProfile(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return userDetails.getUser();
     }
-}
 
+}
