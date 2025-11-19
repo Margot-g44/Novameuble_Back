@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/furnitures")
+@CrossOrigin(origins = "*")
 public class FurnituresController {
 
     private final FurnituresService service;
@@ -21,8 +22,14 @@ public class FurnituresController {
     }
 
     @GetMapping
-    public List<Furnitures> getAll() {
-        return service.getAll();
+    public List<Furnitures> getAllFurnitures() {
+        return service.getAllFurnitures();
+    }
+
+    @PreAuthorize("permitAll()")
+    @GetMapping("/validated")
+    public List<Furnitures> getValidatedFurniture() {
+        return service.getByStatus("valide");
     }
 
     @GetMapping("/{id}")

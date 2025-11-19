@@ -22,6 +22,11 @@ public class FurnituresService {
         return furnituresRepository.findAll();
     }
 
+    public List<Furnitures> getValidatedFurnitures() {
+        return furnituresRepository.findByStatus("valide");
+    }
+
+
     public Furnitures getById(Long id) {
         return furnituresRepository.findById(id).orElse(null);
     }
@@ -57,5 +62,14 @@ public class FurnituresService {
         existing.setStatus(furnitureDetails.getStatus());
 
         return furnituresRepository.save(existing);
+    }
+
+    public List<Furnitures> getByStatus(String status) {
+        return furnituresRepository.findByStatus(status);
+    }
+
+
+    public List<Furnitures> getAllFurnitures() {
+        return furnituresRepository.findAll();
     }
 }
