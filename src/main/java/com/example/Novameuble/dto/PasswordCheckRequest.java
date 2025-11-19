@@ -1,11 +1,11 @@
-package com.example.Novameuble.controllers;
+package com.example.Novameuble.dto;
 
-import org.springframework.security.access.prepost.PreAuthorize;
-
-@PreAuthorize("isAuthenticated()")
 public class PasswordCheckRequest {
+
     private String email;
     private String password;
+
+    public PasswordCheckRequest() {}
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
@@ -13,4 +13,3 @@ public class PasswordCheckRequest {
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
 }
-

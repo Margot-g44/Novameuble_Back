@@ -17,12 +17,13 @@ public class PicturesOfFurnituresController {
         this.service = service;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN','SELLER')")
     @GetMapping
     public List<PicturesOfFurnitures> getAllPictures() {
         return service.getAllPictures();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','SELLER')")
     @GetMapping("/{id}")
     public PicturesOfFurnitures getPictureById(@PathVariable Long id) {
         return service.getPictureById(id)

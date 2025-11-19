@@ -1,12 +1,17 @@
 package com.example.Novameuble.controllers;
 
+import com.example.Novameuble.Security.CustomUserDetails;
 import com.example.Novameuble.entities.Users;
 import com.example.Novameuble.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+
 
 @RestController
 @RequestMapping("/auth")
@@ -14,6 +19,9 @@ public class AuthController {
 
     @Autowired
     private AuthService authService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Users user) {
@@ -34,5 +42,23 @@ public class AuthController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/check-password")
+    public ResponseEntity<Boolean> checkPassword(
+            @RequestBody com.example.Novameuble.dto.PasswordCheckRequest request,
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        Users user = userDetails.getUser();
+
+        boolean isValid = passwordEncoder.matches(
+                request.getPassword(),
+                user.getPassword()
+        );
+
+        return ResponseEntity.ok(isValid);
+
+    }
+
 }
 

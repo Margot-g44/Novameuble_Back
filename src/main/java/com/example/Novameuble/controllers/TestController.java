@@ -8,33 +8,38 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/test")
 public class TestController {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public TestController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/admin/test")
+    @GetMapping("/admin")
     public String adminAccess() {
         return "Bienvenue ADMIN 👑";
     }
 
     @PreAuthorize("hasRole('SELLER')")
-    @GetMapping("/seller/test")
+    @GetMapping("/seller")
     public String sellerAccess() {
         return "Bienvenue SELLER 🛠️";
     }
 
-    @GetMapping("/client/test")
+    @PreAuthorize("hasRole('CLIENT')")
+    @GetMapping("/client")
     public String clientAccess() {
         return "Bienvenue CLIENT 🛒";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/verify-password")
-    public String verifyPassword(@RequestBody PasswordCheckRequest request) {
+    public String verifyPassword(@RequestBody com.example.Novameuble.dto.PasswordCheckRequest request) {
         Users user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
 

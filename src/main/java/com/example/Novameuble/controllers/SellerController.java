@@ -12,6 +12,6 @@ public class SellerController {
 
     @GetMapping("/meubles")
     public String getSellerPage() {
-        return "Page du vendeur : ici, seuls les SELLER peuvent accéder !";
+        return "Page du vendeur : ici, seuls les vendeurs peuvent y accéder !";
     }
 }
