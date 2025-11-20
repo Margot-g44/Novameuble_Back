@@ -34,8 +34,8 @@ public class UserController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Utilisateur non trouvé"));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
+    // @PreAuthorize("hasRole('ADMIN')"
     public ResponseEntity<Users> createUser(@RequestBody Users user) {
         Users created = userService.createUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);

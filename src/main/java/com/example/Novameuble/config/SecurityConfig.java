@@ -51,10 +51,21 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+
+                        // PUBLIC
                         .requestMatchers("/auth/register", "/auth/login").permitAll()
+                        .requestMatchers("/api/users").permitAll()
+                        .requestMatchers("/api/furnitures/validated").permitAll()
+                        .requestMatchers("/api/furnitures/validated/**").permitAll()
+
+                        // ADMIN
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+
+                        // SELLER
                         .requestMatchers("/seller/**").hasRole("SELLER")
                         .requestMatchers("/furnitures/create").hasRole("SELLER")
+
+                        // TOUT LE RESTE = jwt obligatoire
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
