@@ -1,8 +1,10 @@
 package com.example.Novameuble.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "furnitures")
@@ -23,6 +25,18 @@ public class Furnitures {
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "furniture", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private List<PicturesOfFurnitures> pictures;
+
+    public List<PicturesOfFurnitures> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<PicturesOfFurnitures> pictures) {
+        this.pictures = pictures;
+    }
 
     public Long getId() {
         return id;

@@ -57,6 +57,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/users").permitAll()
                         .requestMatchers("/api/furnitures/validated").permitAll()
                         .requestMatchers("/api/furnitures/validated/**").permitAll()
+                        .requestMatchers("/api/furnitures/**").permitAll()
 
                         // ADMIN
                         .requestMatchers("/admin/**").hasRole("ADMIN")
