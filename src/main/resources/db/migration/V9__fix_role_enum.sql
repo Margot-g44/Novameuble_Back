@@ -1,0 +1,3 @@
+ALTER TABLE users ALTER COLUMN role SET DEFAULT 'CLIENT';
+
+UPDATE users SET role = 'CLIENT' WHERE role = 'client';
