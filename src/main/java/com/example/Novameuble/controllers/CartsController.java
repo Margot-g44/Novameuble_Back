@@ -3,6 +3,7 @@ package com.example.Novameuble.controllers;
 import com.example.Novameuble.entities.Carts;
 import com.example.Novameuble.services.CartsService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,11 +18,13 @@ public class CartsController {
         this.cartService = cartService;
     }
 
+    @PreAuthorize("hasRole('CLIENT')")
     @GetMapping
     public List<Carts> getAllCarts() {
         return cartService.getAllCarts();
     }
 
+    @PreAuthorize("hasRole('CLIENT')")
     @GetMapping("/{id}")
     public ResponseEntity<Carts> getCartById(@PathVariable Long id) {
         return cartService.getCartById(id)
@@ -29,6 +32,7 @@ public class CartsController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasRole('CLIENT')")
     @PostMapping
     public Carts createCart(@RequestBody Carts cart) {
         return cartService.createCart(cart);
@@ -43,6 +47,7 @@ public class CartsController {
         }
     }
 
+    @PreAuthorize("hasRole('CLIENT')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCart(@PathVariable Long id) {
         cartService.deleteCart(id);

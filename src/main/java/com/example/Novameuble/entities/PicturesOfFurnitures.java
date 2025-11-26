@@ -1,5 +1,7 @@
 package com.example.Novameuble.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -13,6 +15,7 @@ public class PicturesOfFurnitures {
 
     @ManyToOne
     @JoinColumn(name = "furniture_id", nullable = false)
+    @JsonIgnore
     private Furnitures furniture;
 
     @Column(nullable = false)
